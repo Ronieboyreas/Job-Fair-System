@@ -1,0 +1,53 @@
+/* Sidebar Fixed Position & Transition */
+.sidebar {
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    transition: width 0.3s ease-in-out;
+    z-index: 1040;
+}
+
+/* Collapsed Sidebar State */
+.sidebar.collapsed {
+    width: 70px;
+}
+
+/* Main Content Base Styles */
+.content-wrapper {
+    margin-left: 250px;
+    min-height: 100vh;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+/* Main Content Shift when Sidebar Collapses */
+body.sidebar-collapsed .content-wrapper {
+    margin-left: 70px !important;
+}
+
+/* --- Collapsed Menu Utilities --- */
+.sidebar.collapsed .sidebar-text,
+.sidebar.collapsed .sidebar-section-title {
+    display: none !important;
+}
+
+.sidebar.collapsed .nav-link,
+.sidebar.collapsed .sidebar-footer .btn {
+    justify-content: center !important;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.sidebar.collapsed .nav-link i,
+.sidebar.collapsed .sidebar-footer i {
+    font-size: 1.25rem;
+}
+
+.sidebar.collapsed .sidebar-user .sidebar-icon-only {
+    display: block !important;
+}
+
+.sidebar.collapsed .sidebar-divider {
+    display: block !important;
+}

@@ -77,7 +77,7 @@ class AuthController extends BaseController
                 'isLoggedIn'   => true,
             ]);
 
-            return redirect()->to('/dashboard');
+            return redirect()->to('/admin/dashboard');
         }
 
         return redirect()->back()->withInput()->with('error', 'Invalid username or password.');

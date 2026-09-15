@@ -21,4 +21,15 @@ class JobfairActivityApplicationModel extends Model
         'status'
     ];
     protected $useTimestamps    = false;
+
+    /**
+     * Fetch applications joined with account details
+     */
+    public function getApplicationsWithUser()
+    {
+        return $this->select('jobfair_activity_application.*, account.display_name')
+                    ->join('account', 'account.id = jobfair_activity_application.account_id', 'left')
+                    ->orderBy('jobfair_activity_application.id', 'DESC')
+                    ->findAll();
+    }
 }

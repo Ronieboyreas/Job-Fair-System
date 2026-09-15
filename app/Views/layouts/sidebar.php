@@ -1,55 +1,68 @@
-<div style="width: 250px; min-height: 100vh; background-color: #2c3e50; color: white; display: flex; flex-direction: column; position: fixed; left: 0; top: 0; bottom: 0;">
+<!-- Sidebar Markup -->
+<aside class="sidebar bg-dark text-white d-flex flex-column position-fixed top-0 start-0 vh-100 shadow-sm" id="sidebar">
     
-    <!-- App Title / Logo -->
-    <div style="padding: 20px; background-color: #1a252f; font-weight: bold; font-size: 1.1rem; border-bottom: 1px solid #34495e;">
-        Job Fair System
+    <!-- App Title / Logo + Toggle Button -->
+    <div class="sidebar-header p-3 bg-secondary border-bottom border-secondary d-flex align-items-center justify-content-between">
+        <span class="sidebar-text fw-bold fs-5 text-white text-truncate">
+            <img src="<?= base_url('logo/jobfairsystem_logo.png') ?>" 
+                        alt="e-JobFair Portal Logo" 
+                        class="img-fluid" 
+                        style="max-height: 80px; width: auto;"></span>
+        <button type="button" class="btn btn-sm text-white p-0 border-0 shadow-none" id="sidebarToggle" title="Toggle Sidebar">
+            <i class="bi bi-list fs-3"></i>
+        </button>
     </div>
 
-    <!-- User Details Section -->
-    <div style="padding: 15px 20px; background-color: #34495e; font-size: 0.85rem; border-bottom: 1px solid #2c3e50;">
-        <div style="font-weight: bold; font-size: 0.95rem; text-transform: capitalize;"><?= esc(session()->get('display_name')) ?></div>
-        <div style="opacity: 0.8; margin-top: 2px;"><span style="color: #2ecc71; font-weight: bold;"><?= esc(session()->get('role')) ?></span></div>
+    <!-- User Profile Badge -->
+    <div class="sidebar-user p-3 bg-secondary bg-opacity-25 border-bottom border-secondary small">
+        <div class="sidebar-text fw-bold text-capitalize text-white fs-6">
+            <?= esc(session()->get('display_name')) ?> 
+            <span class="badge bg-info ms-1"><?= esc(session()->get('role')) ?></span>
+        </div>
+        <div class="sidebar-icon-only text-center d-none" title="<?= esc(session()->get('display_name')) ?>">
+            <i class="bi bi-person-circle fs-5"></i>
+        </div>
     </div>
 
     <!-- Navigation Links -->
-    <div style="display: flex; flex-direction: column; padding-top: 10px; flex-grow: 1;">
+    <div class="sidebar-nav nav nav-pills flex-column px-2 py-3 flex-grow-1">
         
-        <!-- General Links (For All Roles) -->
-        <a href="<?= base_url('dashboard') ?>" style="padding: 12px 20px; color: #ecf0f1; text-decoration: none; transition: 0.2s;" onmouseover="this.style.backgroundColor='#34495e'" onmouseout="this.style.backgroundColor='transparent'">
-            Dashboard
+        <a href="<?= base_url('admin/dashboard') ?>" class="nav-link text-white d-flex align-items-center mb-1 <?= url_is('admin/dashboard*') ? 'active' : '' ?>" title="Dashboard">
+            <i class="bi bi-speedometer2"></i> 
+            <span class="sidebar-text ms-2">Dashboard</span>
         </a>
 
-        <a href="<?= base_url('applications') ?>" style="padding: 12px 20px; color: #ecf0f1; text-decoration: none; transition: 0.2s;" onmouseover="this.style.backgroundColor='#34495e'" onmouseout="this.style.backgroundColor='transparent'">
-            Applications
+        <a href="<?= base_url('applications') ?>" class="nav-link text-white d-flex align-items-center mb-1 <?= url_is('applications*') ? 'active' : '' ?>" title="Applications">
+            <i class="bi bi-file-earmark-text"></i> 
+            <span class="sidebar-text ms-2">Applications</span>
         </a>
-        <a href="<?= base_url('employers') ?>" style="padding: 12px 20px; color: #ecf0f1; text-decoration: none; transition: 0.2s;" onmouseover="this.style.backgroundColor='#34495e'" onmouseout="this.style.backgroundColor='transparent'">
-            Employers
-        </a>
-        <a href="<?= base_url('reports') ?>" style="padding: 12px 20px; color: #ecf0f1; text-decoration: none; transition: 0.2s;" onmouseover="this.style.backgroundColor='#34495e'" onmouseout="this.style.backgroundColor='transparent'">
-            Job Fair Reports
-        </a>
+
         <!-- ADMIN-ONLY RESTRICTION -->
         <?php if (session()->get('role') === 'Administrator'): ?>
-            <div style="padding: 12px 20px 5px 20px; font-size: 0.75rem; color: #95a5a6; text-transform: uppercase; font-weight: bold; margin-top: 10px;">
+            <div class="sidebar-section-title px-3 pt-3 pb-1 text-uppercase text-secondary fw-bold sidebar-text" style="font-size: 0.75rem;">
                 Admin Controls
             </div>
+            <hr class="sidebar-divider d-none my-2 border-secondary">
 
-            <a href="<?= base_url('admin/users') ?>" style="padding: 12px 20px; color: #ecf0f1; text-decoration: none; font-weight: 500; transition: 0.2s;" onmouseover="this.style.backgroundColor='#34495e'" onmouseout="this.style.backgroundColor='transparent'">
-                Manage Users
+            <a href="<?= base_url('admin/account') ?>" class="nav-link text-white d-flex align-items-center mb-1 <?= url_is('admin/account*') ? 'active' : '' ?>" title="Manage Users">
+                <i class="bi bi-people"></i> 
+                <span class="sidebar-text ms-2">Manage Accounts</span>
             </a>
 
-            <a href="<?= base_url('admin/reports') ?>" style="padding: 12px 20px; color: #ecf0f1; text-decoration: none; font-weight: 500; transition: 0.2s;" onmouseover="this.style.backgroundColor='#34495e'" onmouseout="this.style.backgroundColor='transparent'">
-                Activity Reports
+            <a href="<?= base_url('admin/reports') ?>" class="nav-link text-white d-flex align-items-center mb-1 <?= url_is('admin/reports*') ? 'active' : '' ?>" title="Activity Reports">
+                <i class="bi bi-graph-up"></i> 
+                <span class="sidebar-text ms-2">Activity Reports</span>
             </a>
         <?php endif; ?>
 
     </div>
 
-    <!-- Logout Link (Fixed at Bottom) -->
-    <div style="border-top: 1px solid #34495e;">
-        <a href="<?= base_url('logout') ?>" style="display: block; padding: 15px 20px; color: #ecf0f1; text-decoration: none; font-weight: bold;" onmouseover="this.style.backgroundColor='#34495e'" onmouseout="this.style.backgroundColor='transparent'">
-            Logout
+    <!-- Footer & Logout -->
+    <div class="sidebar-footer border-top border-secondary p-2">
+        <a href="<?= base_url('logout') ?>" class="btn btn-outline-danger w-100 text-white d-flex border-0" title="Logout">
+            <i class="bi bi-box-arrow-right text-white-50"></i> 
+            <span class="sidebar-text ms-1">Logout</span>
         </a>
     </div>
 
-</div>
+</aside>
