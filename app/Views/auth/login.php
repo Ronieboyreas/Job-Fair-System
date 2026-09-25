@@ -11,7 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #ffffff;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -23,10 +23,10 @@
             width: 100%;
             border: none;
             border-radius: 12px;
-            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.08);
+            box-shadow: 2px 8px 20px rgba(0, 0, 0, 1);
         }
         .login-header {
-            background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+            background: linear-gradient(135deg, #8d8c8c, #b1b1b1);
             color: #fff;
             border-top-left-radius: 12px;
             border-top-right-radius: 12px;
@@ -48,18 +48,16 @@
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-5">
-            <div class="card login-card shadow-sm">
+            <div class="card login-card shadow-lg">
                 <!-- Card Header -->
                 <div class="login-header">
                     <img src="<?= base_url('logo/jobfairsystem_logo.png') ?>" 
                         alt="e-JobFair Portal Logo" 
                         class="img-fluid" 
-                        style="max-height: 80px; width: auto;filter: drop-shadow(-1px 2px 1px rgba(255, 255, 255, 1));"><br>
-                    <p class="mb-0 text-white md">Sign in to manage your account</p>
+                        style="max-height: 80px; width: auto;filter: drop-shadow(-1px 2px 1px rgba(255, 255, 255, 1));">
                 </div>
-
                 <!-- Card Body -->
-                <div class="card-body p-4 p-md-5">
+                <div class="card-body">
 
                     <!-- Flash Messages (CodeIgniter 4 Session Alerts) -->
                     <?php if (session()->getFlashdata('error')) : ?>
@@ -83,7 +81,7 @@
                         <?= csrf_field() ?>
 
                         <!-- Email / Username Input -->
-                        <div class="form-floating mb-3">
+                        <div class="form-floating mb-1">
                             <input type="text" class="form-control" id="email" name="username" placeholder="name@example.com" required autofocus>
                             <label for="email"><i class="bi bi-person me-1"></i> Username</label>
                         </div>
@@ -102,7 +100,8 @@
                                     Remember me
                                 </label>
                             </div>
-                            <a href="<?= base_url('forgot-password') ?>" class="text-decoration-none">Forgot password?</a>
+                            <!-- <a href="<?= base_url('forgot-password') ?>" class="text-decoration-none">Forgot password?</a> -->
+                            <a href="#" class="text-decoration-none">Forgot password?</a>
                         </div>
 
                         <!-- Submit Button -->
@@ -116,7 +115,7 @@
 
                 <!-- Card Footer -->
                 <div class="card-footer bg-light text-center py-3 border-0 rounded-bottom">
-                    <p class="small text-muted mb-0">Don't have an account? <a href="<?= base_url('register') ?>" class="fw-semibold text-decoration-none">Register here</a></p>
+                    <p class="small text-muted mb-0">Don't have an account? <a href="#" class="fw-semibold text-decoration-none">Register here</a></p>
                 </div>
             </div>
         </div>

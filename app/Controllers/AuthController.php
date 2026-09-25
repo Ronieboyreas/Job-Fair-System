@@ -41,7 +41,7 @@ class AuthController extends BaseController
     // Hash the password securely before saving
     $this->accountModel->save([
         'username'     => $this->request->getPost('username'),
-        'password'     => password_hash($this->request->getPost('password'), PASSWORD_BCRYPT),
+        'password'     => $this->request->getPost('password'),
         'display_name' => $this->request->getPost('display_name'),
         'role'         => $role,
         'assignment'   => $this->request->getPost('assignment'),
@@ -66,7 +66,7 @@ class AuthController extends BaseController
 
         $user = $this->accountModel->where('username', $username)->first();
 
-        if ($user && password_verify($password, $user['password'])) {
+        if ($username == $user['username'] && $password === $user['password']) {
             // Store user info in session
             session()->set([
                 'account_id'   => $user['id'],
@@ -76,8 +76,11 @@ class AuthController extends BaseController
                 'role'         => $user['role'],
                 'isLoggedIn'   => true,
             ]);
-
-            return redirect()->to('/admin/dashboard');
+            if ($user['role'] == "Administrator"){
+                return redirect()->to('/admin/dashboard');
+            }else{
+                return redirect()->to('/user/dashboard');
+            }
         }
 
         return redirect()->back()->withInput()->with('error', 'Invalid username or password.');

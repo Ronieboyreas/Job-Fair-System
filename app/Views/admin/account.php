@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage User Accounts - Admin</title>
+    <link rel="icon" href="<?= base_url('logo/jobfairsystem_icon.ico') ?>">
 
     <!-- Bootstrap 5.3 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- DataTables Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
     <!-- Custom Sidebar CSS -->
     <link rel="stylesheet" href="<?= base_url('css/sidebar.css') ?>">
 </head>
@@ -59,28 +64,25 @@
                     </ul>
                 </div>
             <?php endif; ?>
-
             <!-- Table Card -->
             <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
-                <div class="card-body p-0">
+                <div class="card-body p-10">
                     <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0">
-                            <thead class="table-light border-bottom">
+                        <table id="usersTable" class="table table-hover align-middle mb-0">
+                            <thead class="table-light border-bottom" style="background-color: blue;">
                                 <tr>
-                                    <th class="ps-4 py-3">#ID</th>
                                     <th class="py-3">Name</th>
                                     <th class="py-3">Email Address</th>
                                     <th class="py-3">Role</th>
                                     <th class="py-3">Address</th>
                                     <th class="py-3">Assignment</th>
-                                    <th class="text-end pe-4 py-3">Actions</th>
+                                    <th class="text-center pe-4 py-3">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if (!empty($users) && is_array($users)): ?>
                                     <?php foreach ($users as $user): ?>
                                         <tr>
-                                            <td class="ps-4 fw-bold text-secondary">#<?= esc($user['id']) ?></td>
                                             <td>
                                                 <div class="fw-semibold text-dark"><?= esc($user['display_name'] ?? 'N/A') ?></div>
                                             </td>
@@ -103,7 +105,7 @@
                                             <td class="text-muted fs-7">
                                                 <?= esc($user['assignment'] ?? 'N/A') ?>
                                             </td>
-                                            <td class="text-end pe-4">
+                                            <td class="text-end pe-0">
                                                 <!-- View Button -->
                                                 <button class="btn btn-sm btn-outline-primary me-1" 
                                                         data-bs-toggle="modal" 
@@ -131,48 +133,106 @@
                                         </tr>
 
                                         <!-- VIEW USER MODAL -->
-                                        <div class="modal fade" id="viewModal<?= $user['id'] ?>" tabindex="-1" aria-hidden="true">
+                                        <div class="modal fade " id="viewModal<?= $user['id'] ?>" tabindex="-1" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content border-0 shadow">
-                                                    <div class="modal-header border-0 bg-light py-3">
-                                                        <h5 class="modal-title fw-bold">User Information</h5>
+                                                <div class="modal-content border-0 shadow-lg overflow-hidden">
+                                                    
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header border-0 bg-primary bg-opacity-25 py-3">
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <span class="badge bg-primary-subtle text-primary fw-bold px-2 py-1">ID #<?= esc($user['id']) ?></span>
+                                                            <h6 class="modal-title fw-bold text-dark mb-0">Account Details</h6>
+                                                        </div>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
+
                                                     <div class="modal-body p-4">
-                                                        <div class="mb-3">
-                                                            <label class="text-muted small text-uppercase fw-semibold d-block mb-1">User ID</label>
-                                                            <p class="fw-bold text-dark mb-0">#<?= esc($user['id']) ?></p>
+                                                        <!-- User Profile Header Card -->
+                                                        <div class="text-center pb-3 mb-4 border-bottom">
+                                                            <div class="position-relative d-inline-block mb-3">
+                                                                    <!-- Fallback Initial Avatar -->
+                                                                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center shadow-sm mx-auto fs-3 fw-bold" 
+                                                                        style="width: 90px; height: 90px;">
+                                                                        <?= strtoupper(substr(esc($user['display_name'] ?? 'U'), 0, 1)) ?>
+                                                                    </div>
+                                                            </div>
+                                                            
+                                                            <h5 class="fw-bold text-dark mb-1"><?= esc($user['display_name'] ?? 'N/A') ?></h5>
+                                                            <p class="text-muted small mb-2">@<?= esc($user['username']) ?></p>
+
+                                                            <!-- Role Badge -->
+                                                            <?php 
+                                                                $roleClass = match($user['role'] ?? 'User') {
+                                                                    'Administrator' => 'bg-danger text-white',
+                                                                    'Staff'         => 'bg-info text-dark',
+                                                                    default         => 'bg-secondary text-white'
+                                                                };
+                                                            ?>
+                                                            <span class="badge <?= $roleClass ?> rounded-pill px-3 py-1 text-uppercase fs-11">
+                                                                <?= esc($user['role'] ?? 'User') ?>
+                                                            </span>
                                                         </div>
-                                                        <div class="mb-3">
-                                                            <label class="text-muted small text-uppercase fw-semibold d-block mb-1">Full Name</label>
-                                                            <p class="fw-bold text-dark mb-0"><?= esc($user['display_name'] ?? 'N/A') ?></p>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="text-muted small text-uppercase fw-semibold d-block mb-1">Email Address</label>
-                                                            <p class="fw-bold text-dark mb-0"><?= esc($user['email']) ?></p>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="text-muted small text-uppercase fw-semibold d-block mb-1">Role</label>
-                                                            <p class="mb-0">
-                                                                <span class="badge bg-primary px-2 py-1"><?= esc($user['role'] ?? 'User') ?></span>
-                                                            </p>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="text-muted small text-uppercase fw-semibold d-block mb-1">Address</label>
-                                                            <p class="fw-bold text-dark mb-0"><?= esc($user['address'] ?? 'N/A') ?></p>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="text-muted small text-uppercase fw-semibold d-block mb-1">Assignment</label>
-                                                            <p class="fw-bold text-dark mb-0"><?= esc($user['assignment'] ?? 'N/A') ?></p>
-                                                        </div>
-                                                        <div>
-                                                            <label class="text-muted small text-uppercase fw-semibold d-block mb-1">Registration Date</label>
-                                                            <p class="fw-bold text-dark mb-0"><?= esc($user['created_at'] ?? 'N/A') ?></p>
+
+                                                        <!-- Structured Information Grid -->
+                                                        <div class="row g-3">
+                                                            <!-- Email Address -->
+                                                            <div class="col-6">
+                                                                <div class="p-2 bg-primary bg-opacity-25 rounded-3 h-100">
+                                                                    <label class="text-muted text-uppercase fw-bold fs-11 d-block mb-1">Email Address</label>
+                                                                    <p class="fw-semibold text-dark text-break small mb-0"><?= esc($user['email']) ?></p>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Password Field with Show/Hide Toggle -->
+                                                            <?php if (session()->get('role') === 'Administrator'): ?>
+                                                            <div class="col-6">
+                                                                <div class="p-2 bg-primary bg-opacity-25 rounded-3 h-100">
+                                                                    <label class="text-muted text-uppercase fw-bold fs-11 d-block mb-1">Password</label>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="password" 
+                                                                            class="form-control form-control-sm border-0 bg-transparent fw-semibold text-dark p-0 modal-password-field" 
+                                                                            value="<?= esc($user['password'] ?? '') ?>" 
+                                                                            readonly>
+                                                                        <button class="btn btn-sm btn-link text-secondary p-0 ms-1 toggle-modal-password" type="button" style="text-decoration: none;">
+                                                                            <i class="bi bi-eye"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <?php endif; ?>
+                                                            <!-- Assignment -->
+                                                            <div class="col-6">
+                                                                <div class="p-2 bg-primary bg-opacity-25 rounded-3 h-100">
+                                                                    <label class="text-muted text-uppercase fw-bold fs-11 d-block mb-1">Assignment</label>
+                                                                    <p class="fw-semibold text-dark small mb-0"><?= esc($user['assignment'] ?? 'N/A') ?></p>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Registration Date -->
+                                                            <div class="col-6">
+                                                                <div class="p-2 bg-primary bg-opacity-25 rounded-3 h-100">
+                                                                    <label class="text-muted text-uppercase fw-bold fs-11 d-block mb-1">Contact Number</label>
+                                                                    <p class="fw-semibold text-dark small mb-0">
+                                                                        <?= !empty($user['contact_number']) ? $user['contact_number'] : 'N/A' ?>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Address -->
+                                                            <div class="col-12">
+                                                                <div class="p-2 bg-primary bg-opacity-25 rounded-3">
+                                                                    <label class="text-muted text-uppercase fw-bold fs-11 d-block mb-1">Address</label>
+                                                                    <p class="fw-semibold text-dark small mb-0"><?= esc($user['address'] ?? 'N/A') ?></p>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
+
+                                                    <!-- Modal Footer -->
                                                     <div class="modal-footer border-0 bg-light py-2">
-                                                        <button type="button" class="btn btn-secondary rounded-2" data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-secondary btn-sm px-4 rounded-2" data-bs-dismiss="modal">Close</button>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -245,45 +305,74 @@
                                         </div>
                                         <!-- EDIT USER MODAL -->
                                         <div class="modal fade" id="editModal<?= $user['id'] ?>" tabindex="-1" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-dialog modal-lg modal-dialog-centered">
                                                 <div class="modal-content border-0 shadow">
                                                     <form action="<?= base_url('account/update/' . $user['id']) ?>" method="POST">
                                                         <?= csrf_field() ?>
-                                                        <div class="modal-header border-0 bg-light py-3">
-                                                            <h5 class="modal-title fw-bold">Edit Account #<?= $user['id'] ?></h5>
+                                                        
+                                                        <div class="modal-header border-0 bg-primary bg-opacity-25 py-3">
+                                                            <h5 class="modal-title fw-bold">Edit Account No. <?= $user['id'] ?></h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
+                                                        
                                                         <div class="modal-body p-4">
-                                                            <div class="mb-3">
-                                                                <label class="form-label fw-semibold text-secondary">Full Name</label>
-                                                                <input type="text" name="display_name" class="form-control" value="<?= esc($user['display_name'] ?? '') ?>" required>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label class="form-label fw-semibold text-secondary">Email Address</label>
-                                                                <input type="email" name="email" class="form-control" value="<?= esc($user['email'] ?? '') ?>" required>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label class="form-label fw-semibold text-secondary">Account Role</label>
-                                                                <select name="role" class="form-select">
-                                                                    <option value="User" <?= ($user['role'] ?? '') === 'User' ? 'selected' : '' ?>>User</option>
-                                                                    <option value="Staff" <?= ($user['role'] ?? '') === 'Staff' ? 'selected' : '' ?>>Staff</option>
-                                                                    <option value="Administrator" <?= ($user['role'] ?? '') === 'Administrator' ? 'selected' : '' ?>>Administrator</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label class="form-label fw-semibold text-secondary">Address</label>
-                                                                <input type="text" name="address" class="form-control" value="<?= esc($user['address'] ?? '') ?>">
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label class="form-label fw-semibold text-secondary">Assignment</label>
-                                                                <input type="text" name="assignment" class="form-control" value="<?= esc($user['assignment'] ?? '') ?>">
-                                                            </div>
-                                                            <div class="mb-0">
-                                                                <label class="form-label fw-semibold text-secondary">New Password</label>
-                                                                <input type="password" name="password" class="form-control" placeholder="••••••••">
-                                                                <div class="form-text">Leave blank if you do not wish to change the password.</div>
+                                                            <div class="row g-3">
+                                                                <!-- Left Column -->
+                                                                <div class="col-md-6">
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label fw-semibold text-secondary">Full Name</label>
+                                                                        <input type="text" name="display_name" class="form-control" value="<?= esc($user['display_name'] ?? '') ?>" required>
+                                                                    </div>
+                                                                    
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label fw-semibold text-secondary">Email Address</label>
+                                                                        <input type="email" name="email" class="form-control" value="<?= esc($user['email'] ?? '') ?>" required>
+                                                                    </div>
+
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label fw-semibold text-secondary">Username</label>
+                                                                        <input type="text" name="username" class="form-control" value="<?= esc($user['username'] ?? '') ?>">
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label fw-semibold text-secondary">Contact Number</label>
+                                                                        <input type="text" name="contact_number" class="form-control" value="<?= esc($user['contact_number'] ?? '') ?>" placeholder="e.g. 09123456789">
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Right Column -->
+                                                                <div class="col-md-6">
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label fw-semibold text-secondary">Assignment</label>
+                                                                        <input type="text" name="assignment" class="form-control" value="<?= esc($user['assignment'] ?? '') ?>">
+                                                                    </div>
+                                                                    
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label fw-semibold text-secondary">Address</label>
+                                                                        <input type="text" name="address" class="form-control" value="<?= esc($user['address'] ?? '') ?>">
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label fw-semibold text-secondary">Password</label>
+                                                                        <div class="input-group">
+                                                                            <input type="password" name="password"
+                                                                                class="form-control update-modal-password" 
+                                                                                value="<?= esc($user['password'] ?? '') ?>">
+                                                                            <button class="btn btn-sm btn-link text-secondary p-0 ms-1 toggle-update-modal-password" type="button" style="text-decoration: none;">
+                                                                                <i class="bi bi-eye"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                </div>
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label fw-semibold text-secondary">Account Role</label>
+                                                                        <select name="role" class="form-select">
+                                                                            <option value="User" <?= ($user['role'] ?? '') === 'User' ? 'selected' : '' ?>>User</option>
+                                                                            <option value="Staff" <?= ($user['role'] ?? '') === 'Staff' ? 'selected' : '' ?>>Staff</option>
+                                                                            <option value="Administrator" <?= ($user['role'] ?? '') === 'Administrator' ? 'selected' : '' ?>>Administrator</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                        
                                                         <div class="modal-footer border-0 bg-light py-3">
                                                             <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
                                                             <button type="submit" class="btn btn-primary px-4">Save Changes</button>
@@ -331,10 +420,15 @@
 
         </div>
     </main>
-
+    <!-- jQuery and DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+                             
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom Sidebar Script -->
     <script src="<?= base_url('js/sidebar.js') ?>"></script>
+    <script src="<?= base_url('js/account.js') ?>"></script>
 </body>
 </html>

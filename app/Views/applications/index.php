@@ -4,16 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Fair System | Applications</title>
-    
+    <link rel="icon" href="<?= base_url('logo/jobfairsystem_icon.ico') ?>">
     <!-- Bootstrap 5 CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     
+    <!-- DataTables Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
     <!-- Custom Sidebar CSS -->
     <link rel="stylesheet" href="<?= base_url('css/sidebar.css') ?>">
     <script src="<?= base_url('js/sidebar.js') ?>"></script>
 </head>
-<body style="margin: 0; font-family: Arial, sans-serif; background-color: #f8f9fa;">
+<body class="bg-light">
 
     <!-- Include Reusable Sidebar -->
     <?= $this->include('layouts/sidebar') ?>
@@ -43,10 +46,10 @@
 
             <!-- Applications Data Table Card -->
             <div class="card shadow-sm border-0">
-                <div class="card-body p-0">
+                <div class="card-body p-3">
                     <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0">
-                            <thead class="table-dark">
+                        <table id="applicationsTable" class="table table-hover align-middle mb-0 border border-1">
+                            <thead class="table-light">
                                 <tr>
                                     <th scope="col" class="px-3">ID</th>
                                     <th scope="col">Job Fair Type</th>
@@ -365,7 +368,13 @@
             });
         </script>
     <?php endif; ?>
+    <!-- jQuery and DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="<?= base_url('js/applications.js') ?>"></script>
 </body>
 </html>

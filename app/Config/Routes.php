@@ -20,16 +20,20 @@ $routes->post('login', [AuthController::class, 'processLogin']);
 $routes->get('logout', [AuthController::class, 'logout']);
 
 // Dashboard Route (Points directly to Controller)
-$routes->get('admin/dashboard', [DashboardController::class, 'index']);
+$routes->get('admin/dashboard', 'DashboardController::index', ['filter' => 'adminAuth']);
 
 // Job Fair Applications Routes
-$routes->get('applications', [ApplicationController::class, 'index']);
+$routes->get('applications', 'ApplicationController::index', ['filter' => 'adminAuth']);
 $routes->post('applications/store', [ApplicationController::class, 'create']);
 $routes->post('applications/update/(:num)', [ApplicationController::class, 'update/$1']);
 $routes->get('applications/delete/(:num)', [ApplicationController::class, 'delete/$1']);
 
 // User Management Routes
-$routes->get('admin/account', [UserController::class, 'index']);
+$routes->get('admin/account', 'UserController::index', ['filter' => 'adminAuth']);
 $routes->post('account/store', [UserController::class, 'store']);
 $routes->post('account/update/(:num)', 'UserController::update/$1');
 $routes->get('account/delete/(:num)', 'UserController::delete/$1');
+
+// User/Staff Dashboard Route
+$routes->get('user/dashboard', 'UserDashboard::index');
+$routes->get('user/application', 'UserDashboard::apply');

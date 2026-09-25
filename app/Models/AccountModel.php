@@ -16,7 +16,9 @@ class AccountModel extends Model
         'display_name', 
         'role', 
         'assignment', 
+        'username', 
         'email', 
+        'contact_number', 
         'address'
     ];
     protected $useTimestamps    = false;
