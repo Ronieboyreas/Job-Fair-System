@@ -5,46 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Fair System | Applications</title>
     <link rel="icon" href="<?= base_url('logo/jobfairsystem_icon.ico') ?>">
-    <!-- Bootstrap 5 CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    
-    <!-- DataTables Bootstrap 5 CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-
-    <!-- Custom Sidebar CSS -->
     <link rel="stylesheet" href="<?= base_url('css/sidebar.css') ?>">
     <script src="<?= base_url('js/sidebar.js') ?>"></script>
+    <style>
+        .header-navbar {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e9ecef;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.04);
+        }
+        .user-dropdown-btn:hover {
+            background-color: #f8f9fa;
+        }
+    </style>
 </head>
 <body class="bg-light">
-
-    <!-- Include Reusable Sidebar -->
     <?= $this->include('layouts/sidebar') ?>
-
-    <!-- Main Content Wrapper -->
     <main class="content-wrapper">
+        <?= $this->include('layouts/header') ?>
         <div class="container-fluid p-4">
-            
-            <!-- Page Header -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
                     <h2 class="fw-bold text-dark mb-1">Job Fair Activity Applications</h2>
                     <p class="text-muted mb-0">Manage and monitor submitted job fair activity applications.</p>
                 </div>
-                <button type="button" class="btn btn-primary d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#createApplicationModal">
-                    <i class="bi bi-plus-lg"></i> New Application
-                </button>
+                <a href="<?= base_url('user/application') ?>">
+                    <button type="button" class="btn btn-primary d-flex align-items-center gap-2" data-bs-toggle="modal">
+                        <i class="bi bi-plus-lg"></i> New Application
+                    </button>
+                </a>
             </div>
-
-            <!-- Flash Notifications -->
             <?php if (session()->getFlashdata('success')): ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <?= session()->getFlashdata('success') ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>
-
-            <!-- Applications Data Table Card -->
             <div class="card shadow-sm border-0">
                 <div class="card-body p-3">
                     <div class="table-responsive">
@@ -100,71 +98,114 @@
                                                     <?= esc($app['status'] ?? 'Pending') ?>
                                                 </span>
                                             </td>
-                                            <!-- Action Buttons Column -->
                                             <td class="text-center">
                                                 <div class="btn-group btn-group-sm" role="group">
-                                                    <!-- View Button -->
                                                     <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#viewModal<?= $app['id'] ?>" title="View Details">
                                                         <i class="bi bi-eye-fill"></i>
                                                     </button>
-                                                    <!-- Edit Button -->
                                                     <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editModal<?= $app['id'] ?>" title="Edit Application">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </button>
-                                                    <!-- Delete Button -->
                                                     <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $app['id'] ?>" title="Delete Application">
                                                         <i class="bi bi-trash-fill"></i>
                                                     </button>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <!-- VIEW MODAL -->
                                         <div class="modal fade" id="viewModal<?= $app['id'] ?>" tabindex="-1" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-dialog modal-dialog-centered modal-lg">
                                                 <div class="modal-content">
                                                     <div class="modal-header bg-info text-white">
-                                                        <h5 class="modal-title fw-bold"><i class="bi bi-info-circle me-2"></i>Application Details #<?= esc($app['id']) ?></h5>
+                                                        <h5 class="modal-title fw-bold">
+                                                            <i class="bi bi-info-circle me-2"></i>Application Details #<?= esc($app['id']) ?>
+                                                        </h5>
                                                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                                                     </div>
                                                     <div class="modal-body p-4">
-                                                        <ul class="list-group list-group-flush">
-                                                            <li class="list-group-item d-flex justify-content-between">
-                                                                <strong>Job Fair Type:</strong> 
-                                                                <span><?= esc($app['jobfair_type']) ?></span>
-                                                            </li>
-                                                            <li class="list-group-item d-flex justify-content-between">
-                                                                <strong>Proposed Date:</strong> 
-                                                                <span><?= esc($app['proposed_date']) ?></span>
-                                                            </li>
-                                                            <li class="list-group-item d-flex justify-content-between">
-                                                                <strong>Proposed Address:</strong> 
-                                                                <span><?= esc($app['proposed_address']) ?></span>
-                                                            </li>
-                                                            <li class="list-group-item d-flex justify-content-between">
-                                                                <strong>Clearance Date Issued:</strong> 
-                                                                <span><?= esc($app['clearance_date_issued']) ?></span>
-                                                            </li>
-                                                            <li class="list-group-item d-flex justify-content-between">
-                                                                <strong>Application Date Received:</strong> 
-                                                                <span><?= esc($app['application_date_recieve']) ?></span>
-                                                            </li>
-                                                            <li class="list-group-item d-flex justify-content-between">
-                                                                <strong>Submitted By:</strong> 
-                                                                <span class="fw-bold text-primary"><?= esc($app['display_name'] ?? 'N/A') ?></span>
-                                                            </li>
-                                                            <li class="list-group-item d-flex justify-content-between">
-                                                                <strong>Current Status:</strong> 
-                                                                <span class="badge <?= $badgeClass ?>"><?= esc($app['status']) ?></span>
-                                                            </li>
-                                                            <li class="list-group-item d-flex justify-content-between">
-                                                                <strong>Document Link:</strong> 
-                                                                <?php if (!empty($app['document_link'])): ?>
-                                                                    <a href="<?= esc($app['document_link']) ?>" target="_blank" class="text-decoration-none">Open Document <i class="bi bi-box-arrow-up-right"></i></a>
-                                                                <?php else: ?>
-                                                                    <span class="text-muted">None</span>
-                                                                <?php endif; ?>
-                                                            </li>
-                                                        </ul>
+                                                        
+                                                        <!-- Section I: Organizer / Sponsor Information -->
+                                                        <h6 class="text-primary fw-bold border-bottom pb-2 mb-3">I. ORGANIZER / SPONSOR INFORMATION</h6>
+                                                        <div class="row g-3 mb-4">
+                                                            <div class="col-md-6">
+                                                                <strong>Name / Organization:</strong>
+                                                                <div><?= esc($app['organization_name'] ?? 'N/A') ?></div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <strong>Contact / Focal Person:</strong>
+                                                                <div><?= esc($app['display_name'] ?? 'N/A') ?></div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <strong>Cellphone Number:</strong>
+                                                                <div><?= esc($app['contact_number'] ?? 'N/A') ?></div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <strong>E-Mail Address:</strong>
+                                                                <div><?= esc($app['email'] ?? 'N/A') ?></div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <strong>Business Address:</strong>
+                                                                <div><?= esc($app['business_address'] ?? 'N/A') ?></div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <strong>Type of Business:</strong>
+                                                                <div><?= esc($app['business_type'] ?? 'N/A') ?></div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <strong>Nature of Business:</strong>
+                                                                <div><?= esc($app['business_nature'] ?? 'N/A') ?></div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Section II: Planned Job Fair Event -->
+                                                        <h6 class="text-primary fw-bold border-bottom pb-2 mb-3">II. PLANNED JOB FAIR EVENT</h6>
+                                                        <div class="row g-3 mb-4">
+                                                            <div class="col-md-6">
+                                                                <strong>Type of Job Fair:</strong>
+                                                                <div><?= esc($app['jobfair_type'] ?? 'N/A') ?></div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <strong>Proposed Date:</strong>
+                                                                <div><?= esc($app['proposed_date'] ?? 'N/A') ?></div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <strong>Proposed Job Fair Site / Location Address:</strong>
+                                                                <div><?= esc($app['proposed_address'] ?? 'N/A') ?></div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Section III & IV: Review, Evaluation & Status -->
+                                                        <h6 class="text-primary fw-bold border-bottom pb-2 mb-3">III. EVALUATION & STATUS</h6>
+                                                        <div class="row g-3">
+                                                            <div class="col-md-6">
+                                                                <strong>Clearance Date Issued:</strong>
+                                                                <div><?= esc($app['clearance_date_issued'] ?? 'N/A') ?></div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <strong>Application Date Received:</strong>
+                                                                <div><?= esc($app['application_date_recieve'] ?? 'N/A') ?></div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <strong>Submitted By:</strong>
+                                                                <div><span class="fw-bold text-primary"><?= esc($app['display_name'] ?? 'N/A') ?></span></div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <strong>Current Status:</strong>
+                                                                <div><span class="badge <?= $badgeClass ?>"><?= esc($app['status'] ?? 'N/A') ?></span></div>
+                                                            </div>
+                                                            <div class="col-md-12 mt-3">
+                                                                <strong>Document Link / Attachments:</strong>
+                                                                <div>
+                                                                    <?php if (!empty($app['document_link'])): ?>
+                                                                        <a href="<?= esc($app['document_link']) ?>" target="_blank" class="btn btn-sm btn-outline-primary mt-1">
+                                                                            <i class="bi bi-file-earmark-text me-1"></i> Open Document <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                        </a>
+                                                                    <?php else: ?>
+                                                                        <span class="text-muted">None</span>
+                                                                    <?php endif; ?>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -172,8 +213,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!-- EDIT MODAL -->
                                         <div class="modal fade" id="editModal<?= $app['id'] ?>" tabindex="-1" aria-hidden="true">
                                             <div class="modal-dialog modal-lg modal-dialog-centered">
                                                 <div class="modal-content">
@@ -233,8 +272,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!-- DELETE CONFIRMATION MODAL -->
                                         <div class="modal fade" id="deleteModal<?= $app['id'] ?>" tabindex="-1" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
@@ -272,7 +309,6 @@
         </div>
     </main>
 
-    <!-- CREATE APPLICATION MODAL -->
     <div class="modal fade" id="createApplicationModal" tabindex="-1" aria-labelledby="createApplicationModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -301,14 +337,10 @@
                                     <option value="Special Job Fair" <?= old('jobfair_type') === 'Special Job Fair' ? 'selected' : '' ?>>Special Job Fair</option>
                                 </select>
                             </div>
-
-                            <!-- Proposed Date -->
                             <div class="col-md-6">
                                 <label for="proposed_date" class="form-label fw-bold">Proposed Date <span class="text-danger">*</span></label>
                                 <input type="date" class="form-control" id="proposed_date" name="proposed_date" value="<?= old('proposed_date') ?>" required>
                             </div>
-
-                            <!-- Proposed Address -->
                             <div class="col-12">
                                 <label for="proposed_address" class="form-label fw-bold">Proposed Venue / Address <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="proposed_address" name="proposed_address" placeholder="e.g. Tacloban City Convention Center, Tacloban City" value="<?= old('proposed_address') ?>" required>
@@ -320,14 +352,10 @@
                                 <input type="date" class="form-control" id="clearance_date_issued" name="clearance_date_issued" value="<?= old('clearance_date_issued') ?>" required>
                             </div>
                             -->
-
-                            <!-- Application Date Received -->
                             <div class="col-md-6">
                                 <label for="application_date_recieve" class="form-label fw-bold">Application Date Received <span class="text-danger">*</span></label>
                                 <input type="date" class="form-control" id="application_date_recieve" name="application_date_recieve" value="<?= old('application_date_recieve', date('Y-m-d')) ?>" required>
                             </div>
-
-                            <!-- Document Link -->
                             <div class="col-12">
                                 <label for="document_link" class="form-label fw-bold">Document Link (Google Drive / Cloud Storage)</label>
                                 <span class="form-text text-danger" style="font-size: 10pt;"><br>
@@ -339,7 +367,7 @@
                                 </span>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
-                                    <input type="url" class="form-control" id="document_link" name="document_link" placeholder="https://drive.google.com/..." value="<?= old('document_link') ?>">
+                                    <input type="url" class="form-control" id="document_link" name="document_link" placeholder="https://drive.google.com/...">
                                 </div>
                             </div>
 
@@ -359,7 +387,6 @@
         </div>
     </div>
 
-    <!-- Auto-reopen Modal if Validation Fails -->
     <?php if (session()->getFlashdata('errors')): ?>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -376,5 +403,6 @@
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="<?= base_url('js/applications.js') ?>"></script>
+    <script src="<?= base_url('js/navbar_header.js') ?>"></script>
 </body>
 </html>

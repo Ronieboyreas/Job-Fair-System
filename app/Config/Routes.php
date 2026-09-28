@@ -4,6 +4,7 @@ use App\Controllers\AuthController;
 use App\Controllers\ApplicationController;
 use App\Controllers\DashboardController;
 use App\Controllers\UserController;
+use App\Controllers\CalendarController;
 
 // Redirect root URL to Login
 $routes->get('/', static function () {
@@ -24,9 +25,14 @@ $routes->get('admin/dashboard', 'DashboardController::index', ['filter' => 'admi
 
 // Job Fair Applications Routes
 $routes->get('applications', 'ApplicationController::index', ['filter' => 'adminAuth']);
-$routes->post('applications/store', [ApplicationController::class, 'create']);
-$routes->post('applications/update/(:num)', [ApplicationController::class, 'update/$1']);
-$routes->get('applications/delete/(:num)', [ApplicationController::class, 'delete/$1']);
+
+// Grouped Job Fair Application Routes
+$routes->group('applications', function($routes) {
+    $routes->get('create', 'ApplicationController::create');
+    $routes->post('store', 'ApplicationController::store');
+    $routes->post('update/(:num)', [ApplicationController::class, 'update/$1']);
+    $routes->get('delete/(:num)', [ApplicationController::class, 'delete/$1']);
+});
 
 // User Management Routes
 $routes->get('admin/account', 'UserController::index', ['filter' => 'adminAuth']);
@@ -37,3 +43,8 @@ $routes->get('account/delete/(:num)', 'UserController::delete/$1');
 // User/Staff Dashboard Route
 $routes->get('user/dashboard', 'UserDashboard::index');
 $routes->get('user/application', 'UserDashboard::apply');
+
+// User / Staff / Admin Calendar Routes
+$routes->get('user/calendar', [CalendarController::class, 'index']);
+$routes->get('user/calendar/fetch', [CalendarController::class, 'fetchEvents']);
+$routes->post('user/calendar/update', [CalendarController::class, 'updateDate']);

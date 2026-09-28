@@ -10,24 +10,28 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     
-    <!-- Custom Sidebar Overrides -->
+    <!-- Custom Sidebar & Layout Overrides -->
     <link rel="stylesheet" href="<?= base_url('css/sidebar.css') ?>">
+    <style>
+        .header-navbar {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e9ecef;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.04);
+        }
+        .user-dropdown-btn:hover {
+            background-color: #f8f9fa;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-light">
+
     <!-- INCLUDE THE REUSABLE SIDEBAR -->
     <?= $this->include('layouts/sidebar') ?>
 
     <!-- Main Content Area -->
     <main class="content-wrapper">
-        <div class="container-fluid p-4">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <img src="<?= base_url('logo/jobfairsystem_logo.png') ?>" 
-                        alt="e-JobFair Portal Logo" 
-                        class="img-fluid" 
-                        style="max-height: 80px; width: auto;">
-                </div>
-            </div>
+        <?= $this->include('layouts/header') ?>
+        <div class="container-fluid px-4 pb-4">
 
             <!-- Stats Cards Row -->
             <div class="row g-3 mb-4">
@@ -115,7 +119,25 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="<?= base_url('js/sidebar.js') ?>"></script>
 
+    <!-- Real-time Clock & Date Script -->
     <script>
+        function updateClock() {
+            const now = new Date();
+            
+            // Format Time (12-hour format with AM/PM)
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            document.getElementById('liveClockTime').textContent = now.toLocaleTimeString('en-US', timeOptions);
+            
+            // Format Date (e.g., Monday, September 28, 2026)
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('liveClockDate').textContent = now.toLocaleDateString('en-US', dateOptions);
+        }
+
+        // Initialize clock & update every second
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // Chart Setup
         const ctx = document.getElementById('approvedFairsChart').getContext('2d');
         const approvedData = <?= json_encode($chartData ?? array_fill(0, 12, 0)) ?>;
 

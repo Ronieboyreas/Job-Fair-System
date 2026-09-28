@@ -13,21 +13,23 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 
     <link rel="stylesheet" href="<?= base_url('css/sidebar.css') ?>">
+    <style>
+        .header-navbar {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e9ecef;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.04);
+        }
+        .user-dropdown-btn:hover {
+            background-color: #f8f9fa;
+        }
+    </style>
 </head>
 <body>
     <?= $this->include('layouts/sidebar') ?>
     <!-- Main Content Area -->
     <main class="content-wrapper">
+        <?= $this->include('layouts/header') ?>
         <div class="container pb-5">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <img src="<?= base_url('logo/jobfairsystem_logo.png') ?>" 
-                            alt="e-JobFair Portal Logo" 
-                            class="img-fluid" 
-                            style="max-height: 80px; width: auto;">
-                    </div>
-            </div>
-            <!-- Dashboard Metrics Row -->
             <div class="row g-3 mb-4">
 
                 <!-- Total Applications -->
@@ -92,6 +94,34 @@
             </div><br>
             <h4 class="fw-bold text-dark mb-1">My Job Fair Applications</h4>
             <p class="text-muted small mb-0">Overview of applications registered under your account.</p><hr>
+            <!-- Flash Messages for Success / Error -->
+            <?php if (session()->getFlashdata('success')): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <?= esc(session()->getFlashdata('success')) ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+
+            <?php if (session()->getFlashdata('error')): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <?= esc(session()->getFlashdata('error')) ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+
+            <?php if (session()->getFlashdata('errors')): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <ul class="mb-0 ps-3">
+                        <?php foreach (session()->getFlashdata('errors') as $error): ?>
+                            <li><?= esc($error) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
             <!-- Applications Table Card -->
             <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
                 <div class="card-body p-4">
@@ -114,8 +144,8 @@
                                             <td>
                                                 <?php 
                                                     $statusClass = match(strtolower($app['status'] ?? 'Pending')) {
-                                                        'Approved' => 'bg-success-subtle text-success',
-                                                        'Rejected'          => 'bg-danger-subtle text-danger',
+                                                        'approved' => 'bg-success-subtle text-success',
+                                                        'rejected'          => 'bg-danger-subtle text-danger',
                                                         default             => 'bg-warning-subtle text-warning-emphasis'
                                                     };
                                                 ?>

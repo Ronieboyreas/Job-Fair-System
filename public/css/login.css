@@ -1,0 +1,86 @@
+:root {
+            --primary-color: #0d6efd;
+            --primary-hover: #0b5ed7;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        .login-card {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            background: #ffffff;
+        }
+
+        .brand-header {
+            background: #ffffff;
+            padding: 2.5rem 2rem 1rem 2rem;
+            text-align: center;
+        }
+
+        .brand-logo {
+            max-height: 75px;
+            width: auto;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+
+        /* Floating Label Custom Styling for Top-Border Overlay */
+        .form-floating > .form-control {
+            border-radius: 0.5rem;
+            border: 1.5px solid #dee2e6;
+            padding-right: 2.75rem; /* Space for toggle icon */
+        }
+
+        .form-floating > .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+        }
+
+        .form-floating > label {
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        /* Float position adjustments */
+        .form-floating > .form-control:focus ~ label,
+        .form-floating > .form-control:not(:placeholder-shown) ~ label {
+            color: var(--primary-color);
+            opacity: 1;
+            transform: scale(0.85) translateY(-0.85rem) translateX(0.15rem);
+            background-color: #ffffff;
+            padding: 0 0.4rem;
+            height: auto;
+        }
+
+        .password-toggle-btn {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background: none;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .password-toggle-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .btn-submit {
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            letter-spacing: 0.3px;
+        }

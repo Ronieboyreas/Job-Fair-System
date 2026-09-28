@@ -12,15 +12,19 @@ class ApplicationController extends BaseController
     {
         $this->applicationModel = new JobfairActivityApplicationModel();
     }
-
-    public function index()
+    private function checkAuth()
     {
-        // Enforce authentication
         if (!session()->get('isLoggedIn')) {
             return redirect()->to('/login')->with('error', 'Please log in first.');
         }
+        return null;
+    }
+    public function index()
+    {
+        if ($redirect = $this->checkAuth()) {
+            return $redirect;
+        }
 
-        // Fetch applications from the database
         $data = [
             'title'        => 'Job Fair Activity Applications',
             'applications' => $this->applicationModel->getApplicationsWithUser(),
@@ -29,43 +33,59 @@ class ApplicationController extends BaseController
         return view('applications/index', $data);
     }
     // --- CREATE / SUBMIT APPLICATION ---
-    public function create()
+    public function store()
     {
-        if (!session()->get('isLoggedIn')) {
-            return redirect()->to('/login')->with('error', 'Please log in first.');
+        if ($redirect = $this->checkAuth()) {
+            return $redirect;
         }
 
+        // 1. Validation Rules
         $rules = [
-            'proposed_date'            => 'required|valid_date',
-            'proposed_address'         => 'required|min_length[3]',
-            'jobfair_type'             => 'required',
-            'application_date_recieve' => 'required|valid_date',
+            'organization_name'  => 'required|min_length[3]|max_length[255]',
+            'business_address'   => 'required',
+            'type_of_business'   => 'required|in_list[National Government,Local Government Unit,School Based Institution,Private Entity]',
+            'nature_of_business' => 'required',
+            'type_of_jobfair'    => 'required|in_list[Local,Overseas,Both]',
+            'proposed_date'      => 'required|valid_date[Y-m-d]',
+            'proposed_address'  => 'required',
+            'document_link'      => 'permit_empty|valid_url',
+            'peso_manager'       => 'permit_empty|max_length[255]',
+            'peso_office'        => 'permit_empty|max_length[255]',
         ];
 
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Handle Optional Document Link/Upload URL
-        $documentLink = $this->request->getPost('document_link') ?: null;
-
-        $this->applicationModel->save([
-            'account_id'               => session()->get('account_id'),
+        // 2. Prepare Data for Insertion matching Database Schema
+        $data = [
+            'account_id'               => session()->get('account_id') ?? session()->get('user_id'),
+            'organization_name'        => $this->request->getPost('organization_name'),
+            'business_address'         => $this->request->getPost('business_address'),
+            'type_of_business'         => $this->request->getPost('type_of_business'),
+            'nature_of_business'       => $this->request->getPost('nature_of_business'),
+            'jobfair_type'             => $this->request->getPost('type_of_jobfair'),
             'proposed_date'            => $this->request->getPost('proposed_date'),
             'proposed_address'         => $this->request->getPost('proposed_address'),
-            'jobfair_type'             => $this->request->getPost('jobfair_type'),
-            'document_link'            => $documentLink,
-            'application_date_recieve' => $this->request->getPost('application_date_recieve'),
+            'document_link'            => $this->request->getPost('document_link') ?: null,
+            'peso_manager'             => $this->request->getPost('peso_manager') ?: null,
+            'peso_office'              => $this->request->getPost('peso_office') ?: null,
+            'application_date_recieve' => date('Y-m-d'),
             'status'                   => 'Pending',
-        ]);
+        ];
 
-        return redirect()->to('/applications')->with('success', 'Job Fair Activity Application submitted successfully!');
+        if ($this->applicationModel->save($data)) {
+            $redirectUrl = (session()->get('role') === 'Administrator') ? '/applications' : 'user/dashboard';
+            return redirect()->to($redirectUrl)->with('success', 'Job Fair Clearance Application submitted successfully!');
+        }
+
+        return redirect()->back()->withInput()->with('error', 'Failed to submit application. Please try again.');
     }
     // --- UPDATE APPLICATION ---
     public function update($id = null)
     {
-        if (!session()->get('isLoggedIn')) {
-            return redirect()->to('/login')->with('error', 'Please log in first.');
+        if ($redirect = $this->checkAuth()) {
+            return $redirect;
         }
         if (empty($id) || !is_numeric($id) || $id <= 0) {
             return redirect()->to('/applications')->with('error', 'Invalid application ID.');
@@ -103,8 +123,8 @@ class ApplicationController extends BaseController
     // --- DELETE APPLICATION ---
     public function delete($id = null)
     {
-        if (!session()->get('isLoggedIn')) {
-            return redirect()->to('/login')->with('error', 'Please log in first.');
+        if ($redirect = $this->checkAuth()) {
+            return $redirect;
         }
 
         $application = $this->applicationModel->find($id);

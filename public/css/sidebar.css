@@ -1,60 +1,40 @@
-/* Sidebar Fixed Position & Transition */
-.sidebar {
+#sidebar {
     width: 250px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    transition: width 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     z-index: 1040;
 }
-
-/* Collapsed Sidebar State */
-.sidebar.collapsed {
+#sidebar.collapsed {
     width: 70px;
 }
-
-/* Main Content Base Styles */
-.content-wrapper {
-    margin-left: 250px;
-    min-height: 100vh;
-    transition: margin-left 0.3s ease-in-out;
+#sidebar.collapsed .sidebar-text,
+#sidebar.collapsed .sidebar-section-title {
+    display: none !important;
 }
-
-/* Main Content Shift when Sidebar Collapses */
-body.sidebar-collapsed .content-wrapper {
-    margin-left: 70px !important;
-}
-
-/* --- Collapsed Menu Utilities --- */
-.sidebar.collapsed .sidebar-text,
-.sidebar.collapsed .sidebar-section-title {
+#sidebar:not(.collapsed) .sidebar-icon-only {
     display: none !important;
 }
 
-.sidebar.collapsed .nav-link,
-.sidebar.collapsed .sidebar-footer .btn {
+#sidebar.collapsed .sidebar-icon-only {
+    display: block !important;
+}
+
+#sidebar.collapsed .sidebar-divider {
+    display: block !important;
+}
+#sidebar.collapsed .nav-link,
+#sidebar.collapsed .sidebar-footer a {
     justify-content: center !important;
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
-
-.sidebar.collapsed .nav-link i,
-.sidebar.collapsed .sidebar-footer i {
-    font-size: 1.25rem;
+#sidebar.collapsed .nav-link i,
+#sidebar.collapsed .sidebar-footer i {
+    margin-right: 0 !important;
 }
-
-.sidebar.collapsed .sidebar-user .sidebar-icon-only {
-    display: block !important;
+.content-wrapper {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease-in-out;
 }
-
-.sidebar.collapsed .sidebar-divider {
-    display: block !important;
-}
-#sidebar{
-    background-color: rgb(255, 255, 255);
-    color:black;
-}
-a:hover{
-    background-color: rgb(0, 123, 247);
+body.sidebar-collapsed .content-wrapper {
+    margin-left: 70px;
 }

@@ -1,16 +1,4 @@
-$(document).ready(function() {
-            var table = $('#userApplicationsTable').DataTable({
-                "pageLength": 10,
-                "lengthMenu": [5, 10, 25, 50],
-                "language": {
-                    "search": "_INPUT_",
-                    "searchPlaceholder": "Search accounts..."
-                },
-            });
-
-        });
-
-        function updateClock() {
+function updateClock() {
             const now = new Date();
             
             // Format Time (12-hour format with AM/PM)
