@@ -49,11 +49,10 @@
         <?php endif; ?>
         
         <?php if (session()->get('role') === 'Administrator'): ?>
-            <a href="<?= base_url('applications') ?>" class="nav-link text-white d-flex align-items-center mb-1 rounded-3 <?= url_is('applications*') ? 'active bg-primary text-white' : '' ?>" title="Applications">
-                <i class="bi bi-file-earmark-text fs-5"></i> 
-                <span class="sidebar-text ms-3">Applications</span>
+            <a href="<?= base_url('user/calendar') ?>" class="nav-link text-white d-flex align-items-center mb-1 rounded-3 <?= url_is('user/calendar*') ? 'active bg-primary text-white' : '' ?>" title="Calendar">
+                <i class="bi bi-calendar2-event fs-5"></i>
+                <span class="sidebar-text ms-3">Calendar</span>
             </a>
-
             <!-- ADMIN CONTROLS SECTION -->
             <div class="sidebar-section-title px-3 pt-3 pb-1 text-uppercase text-white-50 fw-bold sidebar-text" style="font-size: 0.7rem; letter-spacing: 0.5px;">
                 Admin Controls
@@ -64,7 +63,10 @@
                 <i class="bi bi-person-gear fs-5"></i> 
                 <span class="sidebar-text ms-3">Manage Accounts</span>
             </a>
-
+            <a href="<?= base_url('applications') ?>" class="nav-link text-white d-flex align-items-center mb-1 rounded-3 <?= url_is('applications*') ? 'active bg-primary text-white' : '' ?>" title="Applications">
+                <i class="bi bi-file-earmark-text fs-5"></i> 
+                <span class="sidebar-text ms-3">JobFair Applications</span>
+            </a>
             <a href="<?= base_url('admin/reports') ?>" class="nav-link text-white d-flex align-items-center mb-1 rounded-3 <?= url_is('admin/reports*') ? 'active bg-primary text-white' : '' ?>" title="Activity Reports">
                 <i class="bi bi-graph-up fs-5"></i> 
                 <span class="sidebar-text ms-3">Activity Reports</span>

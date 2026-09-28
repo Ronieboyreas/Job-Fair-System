@@ -13,9 +13,19 @@ class CalendarController extends BaseController
     {
         $this->calendarModel = new CalendarModel();
     }
-
+    private function checkAuth()
+    {
+        if (!session()->get('isLoggedIn')) {
+            return redirect()->to('/login')->with('error', 'Please log in first.');
+        }
+        return null;
+    }
     public function index()
     {
+        if ($redirect = $this->checkAuth()) {
+            return $redirect;
+        }
+
         $role = session()->get('role');
         $accountId = session()->get('account_id') ?? session()->get('user_id');
 
@@ -33,6 +43,9 @@ class CalendarController extends BaseController
      */
     public function fetchEvents()
     {
+        if ($redirect = $this->checkAuth()) {
+            return $redirect;
+        }
         $role = session()->get('role');
         $accountId = session()->get('account_id') ?? session()->get('user_id');
 
@@ -77,6 +90,9 @@ class CalendarController extends BaseController
      */
     public function updateDate()
     {
+        if ($redirect = $this->checkAuth()) {
+            return $redirect;
+        }
         $role = session()->get('role');
         $accountId = session()->get('account_id') ?? session()->get('user_id');
 

@@ -43,7 +43,6 @@
 <div class="container-fluid py-4">
     <div class="row mb-3">
         <div class="col d-flex justify-content-between align-items-center">
-            <h3 class="fw-bold text-dark"><i class="bi bi-calendar-event me-2"></i>Job Fair Schedule Calendar</h3>
             <div>
                 <span class="badge bg-primary me-1">Total Schedule</span>
                 <span class="badge bg-success me-1">Approved</span>
