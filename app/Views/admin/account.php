@@ -6,16 +6,12 @@
     <title>Manage User Accounts - Admin</title>
     <link rel="icon" href="<?= base_url('logo/jobfairsystem_icon.ico') ?>">
 
-    <!-- Bootstrap 5.3 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-
-    <!-- DataTables Bootstrap 5 CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 
-    <!-- Custom Sidebar CSS -->
     <link rel="stylesheet" href="<?= base_url('css/sidebar.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('css/navbar_header.css') ?>">
 </head>
 <body class="bg-light">
 
@@ -23,6 +19,7 @@
     <?= $this->include('layouts/sidebar') ?>
 
     <main class="content-wrapper">
+        <?= $this->include('layouts/header') ?>
         <div class="container-fluid p-4">
 
             <!-- Page Header -->
@@ -429,6 +426,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom Sidebar Script -->
     <script src="<?= base_url('js/sidebar.js') ?>"></script>
+    <script src="<?= base_url('js/navbar_header.js') ?>"></script>
     <script src="<?= base_url('js/account.js') ?>"></script>
 </body>
 </html>

@@ -224,44 +224,89 @@
                                                         <?= csrf_field() ?>
                                                         <div class="modal-body p-4">
                                                             <div class="row g-3">
+                                                                
+                                                                <!-- Section: Organization Details -->
+                                                                <div class="col-12">
+                                                                    <h6 class="fw-bold text-primary border-bottom pb-2"><i class="bi bi-building me-2"></i>Organization Information</h6>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="form-label fw-bold">Organization / Business Name</label>
+                                                                    <input type="text" class="form-control" name="organization_name" value="<?= esc($app['organization_name'] ?? '') ?>" required>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="form-label fw-bold">Business Address</label>
+                                                                    <input type="text" class="form-control" name="business_address" value="<?= esc($app['business_address'] ?? '') ?>" required>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="form-label fw-bold">Type of Business</label>
+                                                                    <input type="text" class="form-control" name="type_of_business" value="<?= esc($app['type_of_business'] ?? '') ?>">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="form-label fw-bold">Nature of Business</label>
+                                                                    <input type="text" class="form-control" name="nature_of_business" value="<?= esc($app['nature_of_business'] ?? '') ?>">
+                                                                </div>
+
+                                                                <!-- Section: Job Fair Details -->
+                                                                <div class="col-12 mt-4">
+                                                                    <h6 class="fw-bold text-primary border-bottom pb-2"><i class="bi bi-calendar-event me-2"></i>Job Fair Details</h6>
+                                                                </div>
                                                                 <div class="col-md-6">
                                                                     <label class="form-label fw-bold">Job Fair Type</label>
                                                                     <select class="form-select" name="jobfair_type" required>
-                                                                        <option value="LGU / PESO Hosted" <?= $app['jobfair_type'] === 'LGU / PESO Hosted' ? 'selected' : '' ?>>LGU / PESO Hosted</option>
-                                                                        <option value="School-Based" <?= $app['jobfair_type'] === 'School-Based' ? 'selected' : '' ?>>School-Based</option>
-                                                                        <option value="Private / Licensed Agency" <?= $app['jobfair_type'] === 'Private / Licensed Agency' ? 'selected' : '' ?>>Private / Licensed Agency</option>
-                                                                        <option value="Special Job Fair" <?= $app['jobfair_type'] === 'Special Job Fair' ? 'selected' : '' ?>>Special Job Fair</option>
+                                                                        <option value="LGU / PESO Hosted" <?= ($app['jobfair_type'] ?? '') === 'LGU / PESO Hosted' ? 'selected' : '' ?>>LGU / PESO Hosted</option>
+                                                                        <option value="School-Based" <?= ($app['jobfair_type'] ?? '') === 'School-Based' ? 'selected' : '' ?>>School-Based</option>
+                                                                        <option value="Private / Licensed Agency" <?= ($app['jobfair_type'] ?? '') === 'Private / Licensed Agency' ? 'selected' : '' ?>>Private / Licensed Agency</option>
+                                                                        <option value="Special Job Fair" <?= ($app['jobfair_type'] ?? '') === 'Special Job Fair' ? 'selected' : '' ?>>Special Job Fair</option>
                                                                     </select>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label class="form-label fw-bold">Proposed Date</label>
-                                                                    <input type="date" class="form-control" name="proposed_date" value="<?= esc($app['proposed_date']) ?>" required>
+                                                                    <input type="date" class="form-control" name="proposed_date" value="<?= esc($app['proposed_date'] ?? '') ?>" required>
                                                                 </div>
                                                                 <div class="col-12">
-                                                                    <label class="form-label fw-bold">Proposed Address</label>
-                                                                    <input type="text" class="form-control" name="proposed_address" value="<?= esc($app['proposed_address']) ?>" required>
+                                                                    <label class="form-label fw-bold">Proposed Venue / Address</label>
+                                                                    <input type="text" class="form-control" name="proposed_address" value="<?= esc($app['proposed_address'] ?? '') ?>" required>
+                                                                </div>
+
+                                                                <!-- Section: PESO Office Information -->
+                                                                <div class="col-12 mt-4">
+                                                                    <h6 class="fw-bold text-primary border-bottom pb-2"><i class="bi bi-person-badge me-2"></i>PESO Information</h6>
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <label class="form-label fw-bold">Clearance Date Issued</label>
-                                                                    <input type="date" class="form-control" name="clearance_date_issued" value="<?= esc($app['clearance_date_issued']) ?>">
+                                                                    <label class="form-label fw-bold">PESO Manager</label>
+                                                                    <input type="text" class="form-control" name="peso_manager" value="<?= esc($app['peso_manager'] ?? '') ?>">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="form-label fw-bold">PESO Office</label>
+                                                                    <input type="text" class="form-control" name="peso_office" value="<?= esc($app['peso_office'] ?? '') ?>">
+                                                                </div>
+
+                                                                <!-- Section: Status & Processing -->
+                                                                <div class="col-12 mt-4">
+                                                                    <h6 class="fw-bold text-primary border-bottom pb-2"><i class="bi bi-file-earmark-check me-2"></i>Application Processing</h6>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label class="form-label fw-bold">Application Date Received</label>
-                                                                    <input type="date" class="form-control" name="application_date_recieve" value="<?= esc($app['application_date_recieve']) ?>" required>
+                                                                    <input type="date" class="form-control" name="application_date_recieve" value="<?= esc($app['application_date_recieve'] ?? '') ?>" required>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="form-label fw-bold">Clearance Date Issued</label>
+                                                                    <input type="date" class="form-control" name="clearance_date_issued" value="<?= esc($app['clearance_date_issued'] ?? '') ?>">
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label class="form-label fw-bold">Status</label>
                                                                     <select class="form-select" name="status" required>
-                                                                        <option value="Pending" <?= $app['status'] === 'Pending' ? 'selected' : '' ?>>Pending</option>
-                                                                        <option value="Under Review" <?= $app['status'] === 'Under Review' ? 'selected' : '' ?>>Under Review</option>
-                                                                        <option value="Approved" <?= $app['status'] === 'Approved' ? 'selected' : '' ?>>Approved</option>
-                                                                        <option value="Rejected" <?= $app['status'] === 'Rejected' ? 'selected' : '' ?>>Rejected</option>
+                                                                        <option value="Pending" <?= ($app['status'] ?? '') === 'Pending' ? 'selected' : '' ?>>Pending</option>
+                                                                        <option value="Under Review" <?= ($app['status'] ?? '') === 'Under Review' ? 'selected' : '' ?>>Under Review</option>
+                                                                        <option value="Approved" <?= ($app['status'] ?? '') === 'Approved' ? 'selected' : '' ?>>Approved</option>
+                                                                        <option value="Rejected" <?= ($app['status'] ?? '') === 'Rejected' ? 'selected' : '' ?>>Rejected</option>
                                                                     </select>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label class="form-label fw-bold">Document Link</label>
-                                                                    <input type="url" class="form-control" name="document_link" value="<?= esc($app['document_link']) ?>">
+                                                                    <input type="url" class="form-control" name="document_link" value="<?= esc($app['document_link'] ?? '') ?>" placeholder="https://">
                                                                 </div>
+
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer bg-light">

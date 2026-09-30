@@ -3,126 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Job Fair System</title>
-    <!-- Bootstrap 5.3 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>e-JobFair Portal</title>
+    <link rel="icon" href="<?= base_url('logo/jobfairsystem_icon.ico') ?>">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #f8f9fa;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        .navbar-brand img {
+            max-height: 45px;
+            object-fit: contain;
         }
-        .login-card {
-            max-width: 420px;
-            width: 100%;
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.08);
-        }
-        .login-header {
-            background: linear-gradient(135deg, #0d6efd, #0b5ed7);
-            color: #fff;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-            padding: 2rem 1.5rem;
-            text-align: center;
-        }
-        .btn-primary {
-            border-radius: 8px;
-            padding: 0.6rem 1.2rem;
-            font-weight: 500;
-        }
-        .form-control:focus {
-            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+        .hero-section {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+            color: white;
+            padding: 100px 0 80px 0;
         }
     </style>
 </head>
-<body>
+<body class="bg-light">
 
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-5">
-            <div class="card login-card shadow-sm">
-                <!-- Card Header -->
-                <div class="login-header">
-                    <div class="mb-2">
-                        <i class="bi bi-briefcase-fill display-5"></i>
-                    </div>
-                    <h4 class="fw-bold mb-1">Job Fair System</h4>
-                    <p class="mb-0 text-white-50 small">Sign in to manage your account</p>
-                </div>
+    <!-- Header / Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top py-2">
+        <div class="container">
+            <!-- Left Side Logo -->
+            <a class="navbar-brand d-flex align-items-center gap-2" href="<?= base_url('/') ?>">
+                <img src="<?= base_url('logo/jobfairsystem_logo.png') ?>" alt="e-JobFair Portal Logo">
+            </a>
 
-                <!-- Card Body -->
-                <div class="card-body p-4 p-md-5">
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                    <!-- Flash Messages (CodeIgniter 4 Session Alerts) -->
-                    <?php if (session()->getFlashdata('error')) : ?>
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                            <?= session()->getFlashdata('error') ?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    <?php endif; ?>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <!-- Navigation Links -->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 gap-lg-2">
+                    <li class="nav-item">
+                        <a class="nav-link active fw-semibold" href="<?= base_url('index') ?>">
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" href="<?= base_url('about') ?>">
+                            About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" href="<?= base_url('contact') ?>">
+                            Contact
+                        </a>
+                    </li>
+                </ul>
 
-                    <?php if (session()->getFlashdata('success')) : ?>
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <i class="bi bi-check-circle-fill me-2"></i>
-                            <?= session()->getFlashdata('success') ?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    <?php endif; ?>
-
-                    <!-- Login Form -->
-                    <form action="<?= base_url('login/auth') ?>" method="post">
-                        <?= csrf_field() ?>
-
-                        <!-- Email / Username Input -->
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required autofocus>
-                            <label for="email"><i class="bi bi-envelope me-1"></i> Email address</label>
-                        </div>
-
-                        <!-- Password Input -->
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                            <label for="password"><i class="bi bi-lock me-1"></i> Password</label>
-                        </div>
-
-                        <!-- Remember Me & Forgot Password -->
-                        <div class="d-flex justify-content-between align-items-center mb-4 small">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="remember" name="remember">
-                                <label class="form-check-label text-secondary" for="remember">
-                                    Remember me
-                                </label>
-                            </div>
-                            <a href="<?= base_url('forgot-password') ?>" class="text-decoration-none">Forgot password?</a>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <div class="d-grid mb-3">
-                            <button type="submit" class="btn btn-primary btn-lg fs-6">
-                                <i class="bi bi-box-arrow-in-right me-2"></i> Sign In
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Card Footer -->
-                <div class="card-footer bg-light text-center py-3 border-0 rounded-bottom">
-                    <p class="small text-muted mb-0">Don't have an account? <a href="<?= base_url('register') ?>" class="fw-semibold text-decoration-none">Register here</a></p>
+                <!-- Auth Buttons -->
+                <div class="d-flex align-items-center gap-2">
+                    <a href="<?= base_url('login') ?>" class="btn btn-outline-primary px-3 fw-semibold">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> LogIn
+                    </a>
+                    <a href="<?= base_url('register') ?>" class="btn btn-primary px-3 fw-semibold">
+                        <i class="bi bi-person-plus me-1"></i> Register
+                    </a>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </nav>
 
-<!-- Bootstrap 5.3 JS Bundle -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Hero Section -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-5 fw-bold mb-3">Connecting Employers and Jobseekers Effortlessly</h1>
+            <p class="lead mb-4">Discover job fair events, apply seamlessly, and keep track of your career opportunities in one place.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="<?= base_url('register') ?>" class="btn btn-light btn-lg text-primary fw-bold px-4">Get Started</a>
+                <a href="<?= base_url('login') ?>" class="btn btn-outline-light btn-lg fw-bold px-4">Sign In</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-top py-4 text-center text-muted mt-auto">
+        <div class="container">
+            <small>&copy; 2026 e-JobFair Portal. All rights reserved.</small>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

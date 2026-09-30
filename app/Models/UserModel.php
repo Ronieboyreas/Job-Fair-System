@@ -11,10 +11,37 @@ class UserModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
-    protected $allowedFields    = ['display_name', 'email', 'role', 'address', 'assignment', 'password', 'username', 'contact_number'];
+    protected $allowedFields    = [
+        'display_name',
+        'username',
+        'email',
+        'contact_number',
+        'password',
+        'role',
+        'assignment',
+        'address'
+    ];
 
     // Dates
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';
     protected $updatedField  = '';
+
+    /**
+     * Update account profile details
+     */
+    public function updateAccountProfile(int $userId, array $data): bool
+    {
+        return $this->update($userId, $data);
+    }
+
+    /**
+     * Update user password with secure hashing
+     */
+    public function updatePassword(int $userId, string $newPassword): bool
+    {
+        return $this->update($userId, [
+            'password' => $newPassword
+        ]);
+    }
 }

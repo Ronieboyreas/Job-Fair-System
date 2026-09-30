@@ -36,19 +36,23 @@
             </a>
             <a href="<?= base_url('user/application') ?>" class="nav-link text-white d-flex align-items-center mb-1 rounded-3 <?= url_is('user/application*') ? 'active bg-primary text-white' : '' ?>" title="Application">
                 <i class="bi bi-folder-plus fs-5"></i> 
-                <span class="sidebar-text ms-3">Application</span>
+                <span class="sidebar-text ms-3">Apply for Job Fair</span>
             </a>
             <a href="<?= base_url('user/calendar') ?>" class="nav-link text-white d-flex align-items-center mb-1 rounded-3 <?= url_is('user/calendar*') ? 'active bg-primary text-white' : '' ?>" title="Calendar">
                 <i class="bi bi-calendar2-event fs-5"></i>
                 <span class="sidebar-text ms-3">Calendar</span>
             </a>
-            <a href="<?= base_url('user/settings') ?>" class="nav-link text-white d-flex align-items-center mb-1 rounded-3 <?= url_is('user/settings*') ? 'active bg-primary text-white' : '' ?>" title="Account Settings">
+            <a href="<?= base_url('account_settings') ?>" class="nav-link text-white d-flex align-items-center mb-1 rounded-3 <?= url_is('account_settings*') ? 'active bg-primary text-white' : '' ?>" title="Account Settings">
                 <i class="bi bi-gear fs-5"></i>
                 <span class="sidebar-text ms-3">Account Settings</span>
             </a>
         <?php endif; ?>
         
         <?php if (session()->get('role') === 'Administrator'): ?>
+            <a href="<?= base_url('user/employers') ?>" class="nav-link text-white d-flex align-items-center mb-1 rounded-3 <?= url_is('user/employers*') ? 'active bg-primary text-white' : '' ?>" title="Account Settings">
+                <i class="bi bi-buildings fs-5"></i>
+                <span class="sidebar-text ms-3">Employers</span>
+            </a>
             <a href="<?= base_url('user/calendar') ?>" class="nav-link text-white d-flex align-items-center mb-1 rounded-3 <?= url_is('user/calendar*') ? 'active bg-primary text-white' : '' ?>" title="Calendar">
                 <i class="bi bi-calendar2-event fs-5"></i>
                 <span class="sidebar-text ms-3">Calendar</span>

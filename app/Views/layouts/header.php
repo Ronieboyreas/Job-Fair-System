@@ -52,7 +52,7 @@
                                 <div class="text-muted small"><?= esc(session()->get('email') ?? 'Administrator') ?></div>
                             </li>
                             <li>
-                                <a class="dropdown-item d-flex align-items-center py-2 gap-2 mt-1" href="<?= base_url('admin/account') ?>">
+                                <a class="dropdown-item d-flex align-items-center py-2 gap-2 mt-1" href="<?= base_url('account_settings') ?>">
                                     <i class="bi bi-gear text-primary fs-6"></i> Account Settings
                                 </a>
                             </li>

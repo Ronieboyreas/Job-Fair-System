@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - e-JobFair Portal</title>
+    <link rel="icon" href="<?= base_url('logo/jobfairsystem_icon.ico') ?>">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -21,8 +22,7 @@
                 <!-- Logo & Brand Header -->
                 <div class="brand-header">
                     <img src="<?= base_url('logo/jobfairsystem_logo.png') ?>" alt="e-JobFair Portal Logo" class="brand-logo img-fluid">
-                    <h5 class="fw-bold text-dark mb-1">Welcome Back</h5>
-                    <p class="text-muted small mb-0">Sign in to your e-JobFair account</p>
+                    
                 </div>
 
                 <div class="card-body pt-2 px-4 pb-4">
@@ -72,21 +72,12 @@
                                 <i class="bi bi-eye" id="togglePasswordIcon"></i>
                             </button>
                         </div>
-
-                        <!-- Remember Me / Extra links (Optional) -->
-                        <div class="d-flex justify-content-between align-items-center mb-4 small">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="remember" id="rememberMe">
-                                <label class="form-check-label text-muted" for="rememberMe">
-                                    Remember me
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Submit Button -->
                         <button type="submit" class="btn btn-primary btn-submit w-100 shadow-sm mb-3">
-                            Sign In <i class="bi bi-arrow-right ms-1"></i>
+                            Log In
                         </button>
+                        <div class="card-footer bg-white border-0 text-center py-3">
+                            <p class="mb-0 text-muted small">Don't have an account? <a href="<?= base_url('register') ?>" class="fw-bold text-primary text-decoration-none">Register here</a></p>
+                        </div>
                     </form>
 
                 </div>
