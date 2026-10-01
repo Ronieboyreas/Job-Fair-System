@@ -87,34 +87,50 @@ class ApplicationController extends BaseController
         if ($redirect = $this->checkAuth()) {
             return $redirect;
         }
+
         if (empty($id) || !is_numeric($id) || $id <= 0) {
             return redirect()->to('/applications')->with('error', 'Invalid application ID.');
         }
+
         $application = $this->applicationModel->find($id);
         if (!$application) {
             return redirect()->to('/applications')->with('error', 'Application not found.');
         }
 
         $rules = [
+            'organization_name'        => 'required|min_length[2]',
+            'business_address'         => 'required|min_length[3]',
+            'type_of_business'         => 'permit_empty|min_length[2]',
+            'nature_of_business'       => 'permit_empty|min_length[2]',
+            'jobfair_type'             => 'required',
             'proposed_date'            => 'required|valid_date',
             'proposed_address'         => 'required|min_length[3]',
-            'jobfair_type'             => 'required',
-            'clearance_date_issued'    => 'permit_empty|valid_date',
+            'peso_manager'             => 'permit_empty|min_length[2]',
+            'peso_office'              => 'permit_empty|min_length[2]',
             'application_date_recieve' => 'required|valid_date',
+            'clearance_date_issued'    => 'permit_empty|valid_date',
             'status'                   => 'required',
+            'document_link'            => 'permit_empty|valid_url',
         ];
 
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
+
         $this->applicationModel->update($id, [
+            'organization_name'        => $this->request->getPost('organization_name'),
+            'business_address'         => $this->request->getPost('business_address'),
+            'type_of_business'         => $this->request->getPost('type_of_business') ?: null,
+            'nature_of_business'       => $this->request->getPost('nature_of_business') ?: null,
+            'jobfair_type'             => $this->request->getPost('jobfair_type'),
             'proposed_date'            => $this->request->getPost('proposed_date'),
             'proposed_address'         => $this->request->getPost('proposed_address'),
-            'jobfair_type'             => $this->request->getPost('jobfair_type'),
-            'document_link'            => $this->request->getPost('document_link') ?: null,
-            'clearance_date_issued'    => $this->request->getPost('clearance_date_issued') ?: null,
+            'peso_manager'             => $this->request->getPost('peso_manager') ?: null,
+            'peso_office'              => $this->request->getPost('peso_office') ?: null,
             'application_date_recieve' => $this->request->getPost('application_date_recieve'),
+            'clearance_date_issued'    => $this->request->getPost('clearance_date_issued') ?: null,
             'status'                   => $this->request->getPost('status'),
+            'document_link'            => $this->request->getPost('document_link') ?: null,
         ]);
 
         return redirect()->to('/applications')->with('success', 'Application #' . $id . ' updated successfully!');

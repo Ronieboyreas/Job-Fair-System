@@ -77,6 +77,8 @@
                         </button>
                         <div class="card-footer bg-white border-0 text-center py-3">
                             <p class="mb-0 text-muted small">Don't have an account? <a href="<?= base_url('register') ?>" class="fw-bold text-primary text-decoration-none">Register here</a></p>
+                            <p class="mb-0 text-muted small">or</p>    
+                            <p class="mb-0 text-muted small">Back to <a href="<?= base_url('index') ?>" class="fw-bold text-primary text-decoration-none">Home</a></p>
                         </div>
                     </form>
 

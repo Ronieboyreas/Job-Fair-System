@@ -25,18 +25,19 @@ class CalendarModel extends Model
     ];
 
     /**
-     * Fetch job fair applications for calendar events
+     * Fetch job fair applications with joined account details
      */
-    public function getCalendarEvents($role, $accountId)
+    public function getCalendarEvents($role = null, $accountId = null)
     {
         $builder = $this->select('
             jobfair_activity_application.*,
-            account.display_name
+            account.display_name AS applicant_name,
+            account.email AS applicant_email
         ')
         ->join('account', 'account.id = jobfair_activity_application.account_id', 'left');
 
-        // Filter by user ID if role is "User"
-        if ($role === 'User') {
+        // Filter by account ID if role is regular "User"
+        if ($role === 'User' && !empty($accountId)) {
             $builder->where('jobfair_activity_application.account_id', $accountId);
         }
 

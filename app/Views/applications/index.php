@@ -253,10 +253,9 @@
                                                                 <div class="col-md-6">
                                                                     <label class="form-label fw-bold">Job Fair Type</label>
                                                                     <select class="form-select" name="jobfair_type" required>
-                                                                        <option value="LGU / PESO Hosted" <?= ($app['jobfair_type'] ?? '') === 'LGU / PESO Hosted' ? 'selected' : '' ?>>LGU / PESO Hosted</option>
-                                                                        <option value="School-Based" <?= ($app['jobfair_type'] ?? '') === 'School-Based' ? 'selected' : '' ?>>School-Based</option>
-                                                                        <option value="Private / Licensed Agency" <?= ($app['jobfair_type'] ?? '') === 'Private / Licensed Agency' ? 'selected' : '' ?>>Private / Licensed Agency</option>
-                                                                        <option value="Special Job Fair" <?= ($app['jobfair_type'] ?? '') === 'Special Job Fair' ? 'selected' : '' ?>>Special Job Fair</option>
+                                                                        <option value="LOCAL" <?= ($app['jobfair_type'] ?? '') === 'LOCAL' ? 'selected' : '' ?>>LOCAL</option>
+                                                                        <option value="OVERSEAS" <?= ($app['jobfair_type'] ?? '') === 'OVERSEAS' ? 'selected' : '' ?>>OVERSEAS</option>
+                                                                        <option value="BOTH" <?= ($app['jobfair_type'] ?? '') === 'BOTH' ? 'selected' : '' ?>>BOTH</option>
                                                                     </select>
                                                                 </div>
                                                                 <div class="col-md-6">

@@ -57,11 +57,11 @@
 
                 <!-- Auth Buttons -->
                 <div class="d-flex align-items-center gap-2">
-                    <a href="<?= base_url('login') ?>" class="btn btn-outline-primary px-3 fw-semibold">
-                        <i class="bi bi-box-arrow-in-right me-1"></i> LogIn
-                    </a>
                     <a href="<?= base_url('register') ?>" class="btn btn-primary px-3 fw-semibold">
-                        <i class="bi bi-person-plus me-1"></i> Register
+                        Create an Account
+                    </a>
+                    <a href="<?= base_url('login') ?>" class="btn btn-outline-primary px-3 fw-semibold">
+                        Login
                     </a>
                 </div>
             </div>
